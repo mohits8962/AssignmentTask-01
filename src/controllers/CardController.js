@@ -8,7 +8,6 @@ const createCard = async (req, res) => {
         // Find the customer with the given customerID
         const customer = await CustomerModel.findOne({ customerID })
 
-        // const customer = await CustomerModel.findById(customerID)
         if (!customer) {
             return res.status(400).json({ error: "Customer not found" })
         }
@@ -22,9 +21,9 @@ const createCard = async (req, res) => {
             customerID: customer._id,
         })
 
-        // // Populate the customer information in the response
-        // const populatedCard = await newcard.populate("Customer", "firstName lastName mobileNumber DOB emailID address customerID status")
-        return res.status(200).send({ success: true, message: "New card created successfully", card: newcard });
+        // Populate the customer information in the response
+        const populatedCard = await newcard.populate("customerID", "firstName lastName mobileNumber DOB emailID address customerID status")
+        return res.status(200).send({ success: true, message: "New card created successfully", card: populatedCard });
 
     } catch (error) {
         console.log(error)
